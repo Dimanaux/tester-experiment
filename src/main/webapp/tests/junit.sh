@@ -20,10 +20,10 @@
 mkdir -p out
 
 # add this dir, lib/, all jar files from lib/ and out/ to the CLASSPATH
-CLASSPATH=".:lib:lib/*:out:$CLASSPATH"
+CLASSPATH=".:*:../../lib/*:../lib/*:lib/*:out:$CLASSPATH"
 
 # run compilation on all files from src/
-javac -cp "$CLASSPATH" -d out src/*
+javac -cp "$CLASSPATH" -d out src/main/*
 
 # run all @Junit.Test classes
-java -cp "$CLASSPATH" org.junit.runner.JUnitCore main.SolutionTest
+java -cp "$CLASSPATH" org.junit.runner.JUnitCore main.Spec

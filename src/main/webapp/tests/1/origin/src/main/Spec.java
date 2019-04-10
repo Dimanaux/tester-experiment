@@ -12,6 +12,6 @@ public class Spec {
     @Test
     public void testSum() {
         assertTrue(Solution.max(1, 3, 4) == 4);
-        assertTrue(Solution.sum(2, 2, 4) == 4);
+        assertTrue(Solution.max(2, 2, 4) == 4);
     }
 }

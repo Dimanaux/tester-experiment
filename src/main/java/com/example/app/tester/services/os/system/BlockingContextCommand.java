@@ -1,4 +1,6 @@
-package com.example.app.tester.services;
+package com.example.app.tester.services.os.system;
+
+import com.example.app.tester.services.os.system.SystemCommand;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,15 +11,15 @@ import java.util.Scanner;
  * ContextCommand let you run your command in context of your program!
  * Let you run it in specified directory.
  */
-public class ContextCommand implements SystemCommand {
+public class BlockingContextCommand implements SystemCommand {
     private File path;
     private String command;
-    private StringBuilder output;
+    private StringBuilder output = new StringBuilder();
+    private StringBuilder errors = new StringBuilder();
 
-    public ContextCommand(File path, String command) {
+    public BlockingContextCommand(File path, String command) {
         this.path = path;
         this.command = command;
-        output = new StringBuilder();
     }
 
     /**
@@ -27,7 +29,7 @@ public class ContextCommand implements SystemCommand {
      */
     @Override
     public void run(String... args) throws IOException {
-        final String[] shellCommand = {"bash", "-c", command};
+        final String[] shellCommand = {/*"bash", "-c",*/ command};
 
         String[] commandWithArgs = Arrays.copyOf(
                 shellCommand,
@@ -44,9 +46,18 @@ public class ContextCommand implements SystemCommand {
                 path
         );
 
-        // saving program output
+        try {
+            process.waitFor();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // saving process output
         Scanner outputStream = new Scanner(process.getInputStream()).useDelimiter("\\A");
         outputStream.forEachRemaining(output::append);
+
+        Scanner errorStream = new Scanner(process.getErrorStream()).useDelimiter("\\A");
+        errorStream.forEachRemaining(errors::append);
     }
 
     /**
@@ -55,5 +66,13 @@ public class ContextCommand implements SystemCommand {
     @Override
     public String getOutput() {
         return output.toString();
+    }
+
+    /**
+     * @return error if present
+     */
+    @Override
+    public String getError() {
+        return errors.toString();
     }
 }

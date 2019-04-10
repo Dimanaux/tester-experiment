@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-cp -r "tests/$1/origin/" "tests/$1/$2/"
+cp -r "$1/origin/" "$1/$2/"

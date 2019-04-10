@@ -1,5 +1,6 @@
 package com.example.app.tester.services;
 
+import com.example.app.tester.services.os.files.BlockingWritableFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -29,6 +30,7 @@ public class SpecEnvironment {
         if (!testPath.exists()) {
             testPath.mkdirs();
         }
-        spec.transferTo(testPath);
+        new BlockingWritableFile(testPath)
+                .write(spec.getInputStream());
     }
 }

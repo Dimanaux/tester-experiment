@@ -1,25 +1,15 @@
-package com.example.app.tester.services;
+package com.example.app.tester.services.tests;
 
-import java.io.File;
+import com.example.app.tester.services.os.system.SystemCommand;
+
 import java.io.IOException;
 
 /**
  * Runs tests in set up environment
  * using script in shell.
- * Assume having this structure:
- * tests/
- *  junit.sh
- *  1/
- *   origin/
- *    src/main
- *     Spec.java
- *   1/
- *    src/main
- *     Spec.java
- *     Solution.java
  * Look junit.sh for more information.
  */
-public class JUnitTest {
+public class JUnitTest implements Test {
     private String output;
     private SystemCommand command;
     private boolean hasBeenRun = false;
@@ -27,21 +17,23 @@ public class JUnitTest {
     /**
      * @param command - JUnit Script runner (../../junit.sh)
      */
-    public JUnitTest(ContextCommand command) {
-//        this.command = new ContextCommand(projectRoot, "../../junit.sh");
+    public JUnitTest(SystemCommand command) {
         this.command = command;
     }
 
     /**
-     * runs the script ./tests/junit.sh
-     *
-     * @throws IOException on java.util.Scanner IOException
+     * runs the script ./tests/junit.sh only once.
      */
-    public void run() throws IOException {
+    @Override
+    public void run() {
         if (!hasBeenRun) {
-            command.run();
-            hasBeenRun = true;
-            output = command.getOutput();
+            try {
+                command.run();
+                hasBeenRun = true;
+                output = command.getOutput();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -52,6 +44,7 @@ public class JUnitTest {
      * Can be empty after run() call when all tests are passed,
      * otherwise shows errors - output of JUnit
      */
+    @Override
     public String getOutput() {
         return output;
     }

@@ -1,9 +1,9 @@
 package com.example.app.tester.services;
 
+import com.example.app.tester.services.os.files.BlockingWritableFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class TestEnvironment {
     private final File testPath;
@@ -18,8 +18,6 @@ public class TestEnvironment {
         this.rootPath = path + "/" + specId + "/" + solutionId;
         this.testPath = new File(rootPath + "/src/main/" + file.getOriginalFilename());
         this.solutionFile = file;
-
-
     }
 
     public String getRootPath() {
@@ -27,9 +25,7 @@ public class TestEnvironment {
     }
 
     public void setUp() throws IOException {
-        if (!testPath.exists()) {
-            testPath.mkdirs();
-        }
-        solutionFile.transferTo(testPath);
+        new BlockingWritableFile(testPath)
+                .write(solutionFile.getInputStream());
     }
 }

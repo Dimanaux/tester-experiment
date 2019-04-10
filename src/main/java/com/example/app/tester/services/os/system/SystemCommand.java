@@ -1,4 +1,4 @@
-package com.example.app.tester.services;
+package com.example.app.tester.services.os.system;
 
 import java.io.IOException;
 
@@ -15,7 +15,12 @@ public interface SystemCommand {
     void run(String... args) throws IOException;
 
     /**
-     * @return the output of command run
+     * @return the output of command run. If not present, empty string is returned
      */
     String getOutput();
+
+    /**
+     * @return error as string. If not present, empty string is returned
+     */
+    String getError();
 }

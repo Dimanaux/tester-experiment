@@ -1,14 +1,14 @@
 package com.example.app.tester.controllers;
 
 
-import com.example.app.tester.services.ContextCommand;
 import com.example.app.tester.services.TestEnvironment;
+import com.example.app.tester.services.os.system.BlockingContextCommand;
+import com.example.app.tester.services.os.system.SystemCommand;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.naming.Context;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -32,12 +32,12 @@ public class SolutionController {
                                  @RequestParam MultipartFile solutionFile,
                                  HttpServletRequest request) throws IOException {
         // get next solution id
-        // 2
+        // 2 TODO
         int solutionId = 2;
 
         String testsPath = request.getRealPath("tests");
 
-        ContextCommand env = new ContextCommand(new File(testsPath), "env.sh");
+        SystemCommand env = new BlockingContextCommand(new File(testsPath), "./env.sh");
         env.run(
                 String.valueOf(specId),
                 String.valueOf(solutionId)
@@ -46,12 +46,11 @@ public class SolutionController {
         TestEnvironment testEnvironment = new TestEnvironment(testsPath, specId, solutionId, solutionFile);
         testEnvironment.setUp();
 
-        ContextCommand junitRunner = new ContextCommand(
+        SystemCommand junitRunner = new BlockingContextCommand(
                 new File(testEnvironment.getRootPath()),
                 "../../junit.sh"
         );
         junitRunner.run();
-
 
         return junitRunner.getOutput();
     }
