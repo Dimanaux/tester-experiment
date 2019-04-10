@@ -10,27 +10,34 @@ import java.io.IOException;
  *
  */
 public class SpecEnvironment {
-    private final File testPath;
+    private final File testPathDir;
     private final MultipartFile spec;
+    private final File savedFile;
 
     /**
      * @param specId spec identifier
      * @param file   spec file to load
      */
     public SpecEnvironment(String path, int specId, MultipartFile file) {
-        this.testPath = new File(path + "/" + specId + "/origin/src/main/" + file.getOriginalFilename());
+        // TODO refactor
+        String dir = path + "/" + specId + "/origin/src/main/";
+        this.testPathDir = new File(dir);
+        this.savedFile = new File(dir + "/" + file.getOriginalFilename());
         this.spec = file;
     }
 
-    public File getTestPath() {
-        return testPath;
+    public File getPath() {
+        return testPathDir;
     }
 
     public void setUp() throws IOException {
-        if (!testPath.exists()) {
-            testPath.mkdirs();
+        if (!testPathDir.exists()) {
+            testPathDir.mkdirs();
         }
-        new BlockingWritableFile(testPath)
+        if (!savedFile.exists()) {
+            savedFile.createNewFile();
+        }
+        new BlockingWritableFile(savedFile)
                 .write(spec.getInputStream());
     }
 }
