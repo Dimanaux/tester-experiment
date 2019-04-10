@@ -16,28 +16,28 @@ import java.io.IOException;
 @RequestMapping(path = "/specs")
 public class SpecController {
     @RequestMapping(path = "/new", method = RequestMethod.GET)
-    public String getUploadForm(ModelMap modelMap) {
+    public String getUploadForm() {
         return "createTest";
     }
 
     // TODO REFACTOR
-
-    @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public String uploadSpec(@RequestParam("solutionFile") MultipartFile file,
-                                 HttpServletRequest request) {
+    public String uploadSpec(@RequestParam("specFile") MultipartFile file,
+                             ModelMap modelMap,
+                             HttpServletRequest request) {
         String testsPath = request.getRealPath("tests");
 
-        // get next test id from db
-        int id = 1;
+        // get next spec/test id from db
+        int id = 32;
 
         SpecEnvironment specEnvironment = new SpecEnvironment(testsPath, id, file);
         try {
             specEnvironment.setUp();
-            return "success";
+            modelMap.put("specId", id);
+            return "shareSpec";
         } catch (IOException e) {
             e.printStackTrace();
-            return "error";
+            return "redirect:/specs/new";
         }
     }
 }
