@@ -13,8 +13,16 @@ public class Solution {
     @Column(name = "author_name")
     private String authorName;
 
-    @JoinColumn(name = "account_id")
-    private Account account;
+    @Column(name = "test_id")
+    private Long testId;
+
+    @Column(name = "result")
+    private String result;
+
+    public String getSummary() {
+        String[] split = result.split("\n");
+        return split[split.length - 1];
+    }
 
     public Solution() {
     }
@@ -35,11 +43,19 @@ public class Solution {
         this.authorName = authorName;
     }
 
-    public Account getAccount() {
-        return account;
+    public Long getTestId() {
+        return testId;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setTestId(Long testId) {
+        this.testId = testId;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 }

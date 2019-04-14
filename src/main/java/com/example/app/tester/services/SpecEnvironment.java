@@ -18,7 +18,7 @@ public class SpecEnvironment {
      * @param specId spec identifier
      * @param file   spec file to load
      */
-    public SpecEnvironment(String path, int specId, MultipartFile file) {
+    public SpecEnvironment(String path, Long specId, MultipartFile file) {
         // TODO refactor
         String dir = path + "/" + specId + "/origin/src/main/";
         this.testPathDir = new File(dir);

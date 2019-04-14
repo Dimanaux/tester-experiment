@@ -12,9 +12,10 @@ public class TestEnvironment {
 
     /**
      * @param specId solutionFile identifier
+     * @param solutionId
      * @param file   solutionFile file to load
      */
-    public TestEnvironment(String path, int specId, int solutionId, MultipartFile file) {
+    public TestEnvironment(String path, Long specId, Long solutionId, MultipartFile file) {
         this.rootPath = path + "/" + specId + "/" + solutionId;
         this.testPath = new File(rootPath + "/src/main/" + file.getOriginalFilename());
         this.solutionFile = file;

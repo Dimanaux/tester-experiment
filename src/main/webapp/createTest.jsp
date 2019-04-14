@@ -11,11 +11,30 @@
     <title>upload spec</title>
 </head>
 <body>
+<p>
+    Upload single file - Spec.java. <br>
+    We use JUnit 4.12.
+</p>
+
 <form enctype="multipart/form-data" method="POST" action="/specs">
-    <label>
-        upload spec file:
-        <input type="file" name="specFile">
-    </label>
+    <p>
+        <label>
+            Upload spec file:
+            <input type="file" name="specFile">
+        </label>
+    </p>
+    <p>
+        <label>
+            Enter test title:
+            <input type="text" name="title">
+        </label>
+    </p>
+    <p>
+        <label>
+            Enter description:
+            <input type="text" name="description" placeholder="say something">
+        </label>
+    </p>
     <p>
         <input type="submit" value="upload">
     </p>

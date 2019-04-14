@@ -12,8 +12,12 @@
 </head>
 <body>
 <p>
-    You can upload your solution at
+    Solution can be uploaded at
     <a href="/tests/${specId}">/tests/${specId}</a>
+</p>
+<p>
+    Results are availiable here:
+    <a href="/specs/${specId}">/specs/${specId}</a>
 </p>
 </body>
 </html>
