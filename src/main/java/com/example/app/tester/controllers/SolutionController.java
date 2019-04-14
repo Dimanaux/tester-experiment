@@ -19,7 +19,7 @@ public class SolutionController {
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     public String getUploadForm(@PathVariable(name = "id") int specId,
                                 ModelMap modelMap) {
-        // get spec info from db
+        // get spec info from com.example.app.tester.db
         modelMap.put("specId", specId);
         return "uploadSolution";
     }

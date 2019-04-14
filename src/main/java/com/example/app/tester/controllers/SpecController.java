@@ -27,7 +27,7 @@ public class SpecController {
                              HttpServletRequest request) {
         String testsPath = request.getRealPath("tests");
 
-        // get next spec/test id from db
+        // get next spec/test id from com.example.app.tester.db
         int id = 32;
 
         SpecEnvironment specEnvironment = new SpecEnvironment(testsPath, id, file);
